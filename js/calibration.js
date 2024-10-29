@@ -21,8 +21,8 @@ function ClearCanvas(){
 function PopUpInstruction(){
   ClearCanvas();
   swal({
-    title:"Calibration",
-    text: "Please click on each of the 9 points on the screen. You must click on each point 5 times till it goes yellow. This will calibrate your eye movements.",
+    title:"Calibração Nova",
+    text: "Clique nos pontos até ficarem amarelos, olhe no mouse a cada clique para calibrar corretamente.",
     buttons:{
       cancel: false,
       confirm: true
@@ -46,8 +46,8 @@ function calcAccuracy() {
     // show modal
     // notification for the measurement process
     swal({
-        title: "Calculating measurement",
-        text: "Please don't move your mouse & stare at the middle dot for the next 5 seconds. This will allow us to calculate the accuracy of our predictions.",
+        title: "Calcular Precisão",
+        text: "Não mova seu mouse e olhe para o ponto no centro por 5 segundos. Isto irá determinar o quão preciso a calibração está",
         closeOnEsc: false,
         allowOutsideClick: false,
         closeModal: true
@@ -75,7 +75,7 @@ function calcAccuracy() {
                             ClearCanvas();
                         } else {
                             //use restart function to restart the calibration
-                            document.getElementById("Accuracy").innerHTML = "<a>Not yet Calibrated</a>";
+                            document.getElementById("Accuracy").innerHTML = "<a>Não calibrado</a>";
                             webgazer.clearData();
                             ClearCalibration();
                             ClearCanvas();

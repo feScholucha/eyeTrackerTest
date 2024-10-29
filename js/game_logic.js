@@ -96,8 +96,6 @@ var clickEvent = new MouseEvent("click", {
   "cancelable": false
 });
 
-// while(true)
-// {
 function CheckIt()
 {
   sleep(25).then(()=>
@@ -105,17 +103,5 @@ function CheckIt()
       cards.forEach(card=> {if(elementsOverlap(el1, card)){console.log(card + "LAP");
         card.dispatchEvent(clickEvent)
       }});
-      // if (elementsOverlap(el1, el2)) {
-      //   el2.flipCard()
-      //   el2.dispatchEvent('change');
-      // }
-      // if (elementsOverlap(el1, el3)) {
-      //   el3.flipCard()
-      //   el3.dispatchEvent('change');
-      // }
-      // console.log(elementsOverlap(el1, el2)); // 👉️ true
-      // console.log(elementsOverlap(el1, el3)); // 👉️ false
     });
   }
-
-// }

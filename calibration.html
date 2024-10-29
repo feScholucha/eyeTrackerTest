@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<!--
-This is an example HTML that shows how WebGazer can be used on a website.
-This file provides the additional features:
-  * An integrated, intuitive and sleek action bar with an informative "help" module accessible at all times
-  * Structured 9-point calibration system
-  * Accuracy measure of predictions based on calibration process
-  * Video feedback regarding face positioning
-  * Improved eye predictions visible to the user
-Instructions on use can be found in the README repository.
--->
 <html>
 
 <head>
@@ -43,9 +33,8 @@ Instructions on use can be found in the README repository.
           <!-- Accuracy -->
           <li id="Accuracy"><a>Não Calibrado</a></li>
           <li><a onclick="Restart()" href="#">Refazer Calibração</a></li>
-          <li><a onclick="DumpCoords()" href="#">Teste</a></li>
-          <li><a href="game.html">Jogar</a></li>
-          <!-- <li><a onclick="webgazer.applyKalmanFilter(!webgazer.params.applyKalmanFilter)" href="#">Toggle Kalman Filter</a></li> -->
+          <li><a onclick="webgazer.applyKalmanFilter(!webgazer.params.applyKalmanFilter)" href="#">Alternar Filtro de Kalman</a></li>
+          <li><a href="index.html">Voltar</a></li>
         </ul>
       </div>
     </div>
@@ -70,13 +59,13 @@ Instructions on use can be found in the README repository.
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body">
-          <img src="media/example/calibration.png" width="100%" height="100%" alt="webgazer demo instructions"></img>
+          <img src="img/wip.png" width="100%" height="100%" alt="Instruções"></img>
         </div>
         <div class="modal-footer">
-          <button id="closeBtn" type="button" class="btn btn-default" data-bs-dismiss="modal">Close & load saved model
+          <button id="closeBtn" type="button" class="btn btn-default" data-bs-dismiss="modal">Carregar Modelo Salvo
           </button>
           <button type="button" id='start_calibration' class="btn btn-primary" data-bs-dismiss="modal"
-            onclick="Restart()">Calibrate</button>
+            onclick="Restart()">Calibrar Novo</button>
         </div>
       </div>
 

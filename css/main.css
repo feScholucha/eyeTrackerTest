@@ -43,3 +43,9 @@ p > code.hljs { display: inline; }
 .bib {
 	line-height: 1.1;
 }
+
+.button-block{
+    background-color: aliceblue;
+    width: 60vh;
+    margin: auto;
+}
