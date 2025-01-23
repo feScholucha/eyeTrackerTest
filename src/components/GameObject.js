@@ -8,6 +8,7 @@ class GameObject {
         this.mass = mass;
 
         this.isColliding = false;
+        this.isSelected = false;
     }
   }
   

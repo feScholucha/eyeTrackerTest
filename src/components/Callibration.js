@@ -2,7 +2,7 @@ import Square from './Square';
 import Reaper from './Reaper';
 
 
-class GameWorld {
+class Calibration {
     constructor(canvas) {
         this.canvas = canvas instanceof HTMLCanvasElement
             ? canvas
@@ -20,7 +20,6 @@ class GameWorld {
     }
 
     init() {
-
         this.createWorld();
         requestAnimationFrame((timeStamp) => { this.gameLoop(timeStamp) });
     }
@@ -140,11 +139,10 @@ class GameWorld {
 
         return true;
     }
-
     clearCanvas() {
         // Clear the canvas
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
 }
-export default GameWorld;
+export default Calibration;

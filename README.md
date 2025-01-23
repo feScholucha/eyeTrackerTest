@@ -2,4 +2,5 @@ Projeto de Tracking de Olho baseado na biblioteca Webgazer.js: https://webgazer.
 
 Para instalar e iniciar, use:
 npm install
+
 npm run start
