@@ -1,6 +1,9 @@
 import Square from './Square';
 import Reaper from './Reaper';
+import Segment from './Segment';
 
+/*A seção interna principal que gerencia o canvas e a lógica de colisão entre o ponto de previsão e a interface
+Ainda está sob construção e precisando de uma refatoração*/
 
 class CallWorld {
     constructor(canvas) {
@@ -15,20 +18,26 @@ class CallWorld {
         this.resetCounter = 0;
         this.canvasWidth = 1200;
         this.canvasHeight = 600;
-        this.restitution = 1;
         this.primed = 1;
         this.callSqr = new Square(this.context, 10000, 10000, 0, 0, 5);
         this.pointsArray = [];
         this.timer = 0;
         this.timerActivate = false;
+        this.activateUse = false;
+        this.segments = [[], [], []];
         this.init();
-    }
+        this.buttonLayout = 3;
+        this.buttonDelay = [0, -1, false];
+        this.debounce = false;
 
+    }
+    buttonPress(value) {
+        console.log("Do something with button " + (value+1));
+    }
     init() {
         this.createWorld();
         this.gameObjects[this.queue].isSelected = true;
         requestAnimationFrame((timeStamp) => { this.gameLoop(timeStamp) });
-
     }
     createWorld() {
         this.gameObjects = [
@@ -52,15 +61,43 @@ class CallWorld {
             new Square(this.context, 50, this.canvasHeight / 2, 0, 0, 1),
             new Square(this.context, this.canvasWidth - 50, this.canvasHeight / 2, 0, 0, 1),
         ];
+        this.segments[0] = [
+            new Segment(this.context, (1 * this.canvasWidth / 4)-250, (1 * this.canvasHeight / 4)-125, 500, 250, "Botão 1", 1),
+            new Segment(this.context, (3 * this.canvasWidth / 4)-250, (1 * this.canvasHeight / 4)-125, 500, 250, "Botão 2", 2),
+            new Segment(this.context, (1 * this.canvasWidth / 4)-250, (3 * this.canvasHeight / 4)-125, 500, 250, "Botão 3", 3),
+            new Segment(this.context, (3 * this.canvasWidth / 4)-250, (3 * this.canvasHeight / 4)-125, 500, 250, "Botão 4", 4)
+        ] //2x2
+        this.segments[1] = [
+            new Segment(this.context, (1 * this.canvasWidth / 4)-175-75, (1 * this.canvasHeight / 4)-125, 350, 250, "Botão 1", 1),
+            new Segment(this.context, (3 * this.canvasWidth / 4)-175+75, (1 * this.canvasHeight / 4)-125, 350, 250, "Botão 2", 2),
+            new Segment(this.context, (1 * this.canvasWidth / 4)-175-75, (3 * this.canvasHeight / 4)-125, 350, 250, "Botão 3", 3),
+            new Segment(this.context, (3 * this.canvasWidth / 4)-175+75, (3 * this.canvasHeight / 4)-125, 350, 250, "Botão 4", 4),
+            new Segment(this.context, (1 * this.canvasWidth / 2)-150, (1 * this.canvasHeight / 2)-200, 300, 400, "Botão 5", 5)
+        ] //Cantos, centro
+        this.segments[2] = [
+            new Segment(this.context, (1 * this.canvasWidth / 6)-165, (1 * this.canvasHeight / 4)-125, 330, 250, "Botão 1", 1),
+            new Segment(this.context, (3 * this.canvasWidth / 6)-165, (1 * this.canvasHeight / 4)-125, 330, 250, "Botão 2", 2),
+            new Segment(this.context, (5 * this.canvasWidth / 6)-165, (1 * this.canvasHeight / 4)-125, 330, 250, "Botão 3", 3),
+            new Segment(this.context, (1 * this.canvasWidth / 6)-165, (3 * this.canvasHeight / 4)-125, 330, 250, "Botão 4", 4),
+            new Segment(this.context, (3 * this.canvasWidth / 6)-165, (3 * this.canvasHeight / 4)-125, 330, 250, "Botão 5", 5),
+            new Segment(this.context, (5 * this.canvasWidth / 6)-165, (3 * this.canvasHeight / 4)-125, 330, 250, "Botão 6", 6)
+        ] //2x3
+        this.segments[3] = [
+            new Segment(this.context, (1 * this.canvasWidth / 6)-180, (1 * this.canvasHeight / 6) -90, 360, 180, "Botão 1", 1),
+            new Segment(this.context, (3 * this.canvasWidth / 6)-180, (1 * this.canvasHeight / 6) -90, 360, 180, "Botão 2", 2),
+            new Segment(this.context, (5 * this.canvasWidth / 6)-180, (1 * this.canvasHeight / 6) -90, 360, 180, "Botão 3", 3),
+            new Segment(this.context, (1 * this.canvasWidth / 6)-180, (3 * this.canvasHeight / 6) -90, 360, 180, "Botão 4", 4),
+            new Segment(this.context, (3 * this.canvasWidth / 6)-180, (3 * this.canvasHeight / 6) -90, 360, 180, "Botão 5", 5),
+            new Segment(this.context, (5 * this.canvasWidth / 6)-180, (3 * this.canvasHeight / 6) -90, 360, 180, "Botão 6", 6),
+            new Segment(this.context, (1 * this.canvasWidth / 6)-180, (5 * this.canvasHeight / 6) -90, 360, 180, "Botão 7", 7),
+            new Segment(this.context, (3 * this.canvasWidth / 6)-180, (5 * this.canvasHeight / 6) -90, 360, 180, "Botão 8", 8),
+            new Segment(this.context, (5 * this.canvasWidth / 6)-180, (5 * this.canvasHeight / 6) -90, 360, 180, "Botão 9", 9),
+        ] //3x3
     }
-
     gameLoop(timeStamp) {
         // console.log(timeStamp)
         this.secondsPassed = (timeStamp - this.oldTimeStamp) / 1000;
         this.oldTimeStamp = timeStamp;
-
-
-        // Loop over all game objects to update
         for (let i = 0; i < this.gameObjects.length; i++) {
             if (this.gameObjects[i].constructor.name === "Square") {
                 this.gameObjects[i].update(this.secondsPassed);
@@ -72,47 +109,51 @@ class CallWorld {
 
         this.detectCollisions();
         this.detectEdgeCollisions();
-        this.clearCanvas();
 
         // Update and draw game objects
-        this.gameObjects[0].draw();
-        for (let i = this.gameObjects.length-1; i > 0; i--) {
+        this.clearCanvas();
+        for (let i = this.gameObjects.length - 1; i > 0; i--) {
             this.gameObjects[i].draw();
         }
-        // this.gameObjects.forEach(obj => {
-        //     // obj.update();
-        //     obj.draw();
-        // });
+
         this.gameState();
         this.precisionCheck();
-        this.callSqr.draw();
+        if (this.activateUse === false) {
+            this.callSqr.draw();
+        }
+        // this.activateUse = true;
+        if (this.activateUse) {
+            this.detectChoice(this.buttonLayout);
+            for (let i = this.segments[this.buttonLayout].length - 1; i >= 0; i--) {
+                this.segments[this.buttonLayout][i].draw();
+            }
+        }
+        this.buttonTrigger(this.buttonLayout);
+        this.gameObjects[0].draw();
+
         // Continue game loop
         requestAnimationFrame((timeStamp) => this.gameLoop(timeStamp));
+
 
     }
     detectEdgeCollisions() {
         let obj;
-        // if (x2 > w1 + x1 || x1 > w   2 + x2 || y2 > h1 + y1 || y1 > h2 + y2) {}
 
         for (let i = 0; i < this.gameObjects.length; i++) {
             obj = this.gameObjects[i];
-            // Check for left and right
             if (obj.constructor.name === "Reaper") {
-
                 if (obj.x < obj.width) {
-                    obj.vx = Math.abs(obj.vx) * this.restitution;
+                    obj.vx = Math.abs(obj.vx);
                     obj.x = obj.width;
                 } else if (obj.x > this.canvasWidth - obj.width) {
-                    obj.vx = -Math.abs(obj.vx) * this.restitution;
+                    obj.vx = -Math.abs(obj.vx);
                     obj.x = this.canvasWidth - obj.width;
                 }
-
-                // Check for bottom and top
                 if (obj.y < obj.height) {
-                    obj.vy = Math.abs(obj.vy) * this.restitution;
+                    obj.vy = Math.abs(obj.vy);
                     obj.y = obj.height;
                 } else if (obj.y > this.canvasHeight - obj.height) {
-                    obj.vy = -Math.abs(obj.vy) * this.restitution;
+                    obj.vy = -Math.abs(obj.vy);
                     obj.y = this.canvasHeight - obj.height;
                 }
             }
@@ -130,7 +171,6 @@ class CallWorld {
             obj1 = this.gameObjects[i];
             for (let j = i + 1; j < this.gameObjects.length; j++) {
                 obj2 = this.gameObjects[j];
-                // console.log(this.primed);
                 if (this.primed === 1) {
                     if (this.rectIntersect(obj1.x, obj1.y, obj1.width, obj1.height, obj2.x, obj2.y, obj2.width, obj2.height)) {
                         if (obj1.constructor.name === "Reaper" && obj2.isSelected === true) {
@@ -152,13 +192,26 @@ class CallWorld {
             }
         }
     }
+    detectChoice(mode) {
+        let reaper = this.gameObjects[0];
+        for (let i = 0; i < this.segments[mode].length; i++) {
+            let btn = this.segments[mode][i];
+            if (this.rectIntersect(btn.x, btn.y, btn.width, btn.height, reaper.x, reaper.y, reaper.width, reaper.height)) {
+                reaper.isColliding = true;
+                btn.isColliding = true;
+            }
+            else {
+                reaper.isColliding = false;
+                btn.isColliding = false;
+            }
+        }
+    }
     rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
         if (x2 > w1 + x1 || x1 > w2 + x2 || y2 > h1 + y1 || y1 > h2 + y2) {
             return false;
         }
         return true;
     }
-
     clearCanvas() {
         // Clear the canvas
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -182,7 +235,7 @@ class CallWorld {
 
                     this.context.fillStyle = '#fffbeb'
                     this.context.beginPath();
-                    this.context.arc(this.callSqr.x, this.callSqr.y, 30, 0, Math.PI*2 * (this.timer+5)/200);
+                    this.context.arc(this.callSqr.x, this.callSqr.y, 30, 0, Math.PI * 2 * (this.timer + 5) / 200);
                     this.context.fill();
 
                     this.callSqr.isSelected = true;
@@ -193,11 +246,12 @@ class CallWorld {
                 }
             }
             else {
+
                 if (this.timerActivate === true) {
                     this.calculatePrecision();
                     this.timerActivate = false;
+                    this.activateUse = true;
                     this.callSqr.isSelected = false;
-
                 }
             }
         }
@@ -243,6 +297,50 @@ class CallWorld {
         console.log(...worstDist);
         console.log("Best Sample: ");
         console.log(...bestDist);
+    }
+    swapLayout(type) {
+        this.buttonDelay[0] = 0;
+        this.buttonLayout = type;
+    }
+    buttonTrigger(mode) {
+        let collFlag = false;
+        for (let i = 0; i < this.segments[mode].length; i++) {
+            let btn = this.segments[mode][i];
+
+            if (btn.isColliding) {
+                if (this.buttonDelay[2] === false) {
+                    if (btn.isColliding) {
+                        this.buttonDelay[1] = i + 1;
+                        this.buttonDelay[2] = true;
+                    }
+                }
+                if (this.buttonDelay[1] === btn.buttonID) {
+                    collFlag = true;
+                }
+            }
+        }
+        if (collFlag === true) {
+            this.buttonDelay[0] += 2;
+        }
+        else {
+            this.buttonDelay[0] -= 4;
+        }
+        this.buttonDelay[0] = this.buttonDelay[0] > 100 ? 100 : this.buttonDelay[0];
+        if (this.buttonDelay[0] <= 0) {
+            this.buttonDelay[0] = 0;
+            this.buttonDelay[1] = -1;
+            this.buttonDelay[2] = false;
+            this.debounce = false;
+        }
+        else {
+            if (this.buttonDelay[0] === 100 && this.debounce === false) {
+                this.buttonPress(this.buttonDelay[1] - 1);
+                this.debounce = true;
+            }
+            this.segments[mode][this.buttonDelay[1] - 1].innerbuffer = this.buttonDelay[0];
+        }
+        // console.log(this.buttonDelay[0]);
+
     }
 }
 export default CallWorld;

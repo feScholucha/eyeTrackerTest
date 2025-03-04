@@ -1,13 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState } from 'react';
 import './App.css';
 import CallWorld from './components/CallWorld';
+import { Button, ButtonGroup } from "react-bootstrap";
+
+/*A seção mestre do código, contém o gerenciador do webgazer e o elemento de canvas*/
 
 function App() {
   const [coordy, setY] = useState([])
   const [coordx, setX] = useState([])
   const canvasRef = useRef(null);
   const gameRef = useRef(null);
-  
+
+  useEffect(() => {
+    const handleGlobalMouseMove = event => {
+      if (event.target.id === "mainScreen" && window.webgazer) {
+        window.webgazer.resume();
+      }
+      else {
+        window.webgazer.pause();
+      }
+    };
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    return () => {
+      window.removeEventListener(
+        'mousemove',
+        handleGlobalMouseMove,
+      );
+    };
+  }, []);
+
   useEffect(() => {
     if (window.webgazer) {
       // Configura e inicia o WebGazer
@@ -56,16 +77,25 @@ function App() {
       // console.log(gameWorld.primed);
     }
   }
+  
   return (
     <div className="App-header">
-      <p>Teste EyeTracker detecção de colisão</p>
+      <p>Teste EyeTracker</p>
       <canvas
+        id="mainScreen"
         ref={canvasRef}
         width="1200"
         height="600"
         style={{ border: '1px solid lightgrey' }}>
         Your browser does not support the HTML5 canvas tag.
       </canvas>
+      <ButtonGroup aria-label="Basic example">
+        <Button onClick={() => gameRef.current.swapLayout(0)} variant="secondary">4</Button>
+        <Button onClick={() => gameRef.current.swapLayout(1)} variant="secondary">5</Button>
+        <Button onClick={() => gameRef.current.swapLayout(2)} variant="secondary">6</Button>
+        <Button onClick={() => gameRef.current.swapLayout(3)} variant="secondary">9</Button>
+      </ButtonGroup>
+
     </div>
   );
 }

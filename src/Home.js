@@ -1,8 +1,5 @@
 import React from "react";
 import "./App.css";
-
-// Importing Link from react-router-dom to 
-// navigate to different end points.
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -11,19 +8,21 @@ const Home = () => {
             <h1>Home Page</h1>
             <br />
             <ul>
+            <p>
+                Os testes atuais estão sendo feitos no primeiro link
+            </p>
                 <li>
-                    {/* Endpoint to route to Home component */}
-                    <Link to="/">Home</Link>
+                    <Link to="/callsetup">Calibração e Botões</Link>
                 </li>
+            <p>
+                O segundo é um teste interno sem relação ao desenvolvimento atual
+            </p>
                 <li>
-                    {/* Endpoint to route to Home component */}
-                    <Link to="/callsetup">CallSetup</Link>
-                </li>
-                <li>
-                    {/* Endpoint to route to Home component */}
-                    <Link to="/gamesetup">GameSetup</Link>
+                    <Link to="/gamesetup">Joguinho de Teste (WIP)</Link>
                 </li>
             </ul>
+        <div>
+        </div>
         </div>
     );
 };

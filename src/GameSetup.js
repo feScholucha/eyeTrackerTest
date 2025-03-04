@@ -51,7 +51,7 @@ const GameSetup = () =>{
 
   return (
     <div className="App-header">
-      <p>Teste EyeTracker detecção de colisão</p>
+      <p>Teste Detecção de Colisão</p>
       <canvas
         ref={canvasRef}
         width="1200"
