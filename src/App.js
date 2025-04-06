@@ -9,8 +9,7 @@ import {
 
 // import Home component
 import Home from "./Home";
-import GameSetup from "./GameSetup";
-import CallSetup from "./CallSetup";
+import Controller from "./components/teclado/Controller";
 
 function App() {
   return (
@@ -25,13 +24,8 @@ function App() {
           />
           <Route
             exact
-            path="/gamesetup"
-            element={<GameSetup />}
-          />
-          <Route
-            exact
-            path="/callsetup"
-            element={<CallSetup />}
+            path="/teclado"
+            element={<Controller/>}
           />
 
           <Route

@@ -8,17 +8,8 @@ const Home = () => {
             <h1>Home Page</h1>
             <br />
             <ul>
-            <p>
-                Os testes atuais estão sendo feitos no primeiro link
-            </p>
                 <li>
-                    <Link to="/callsetup">Calibração e Botões</Link>
-                </li>
-            <p>
-                O segundo é um teste interno sem relação ao desenvolvimento atual
-            </p>
-                <li>
-                    <Link to="/gamesetup">Joguinho de Teste (WIP)</Link>
+                    <Link to="/teclado">Teclado Teste</Link>
                 </li>
             </ul>
         <div>

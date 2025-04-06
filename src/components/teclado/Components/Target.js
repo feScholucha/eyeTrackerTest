@@ -1,19 +1,14 @@
-import GameObject from './GameObject';
+import CoreComponent from './CoreComponent';
 
-class Square extends GameObject {
-    constructor(context, x, y, vx, vy, mass) {
-        super(context, x, y, vx, vy, mass);
-        //Set default width and height
+export default class Target extends CoreComponent {
+    constructor(context, x, y) {
+        super(context, x, y);
         this.width = 50;
         this.height = 50;
-        this.colorOption = this.isColliding? '#ffcd00' : this.isSelected? '#cdff00': 'e85c5c';
-        this.supportOption = this.isColliding? '#71706b' : this.isSelected? '#71706b': 'fffbeb';
     }
-
-    update(secondsPassed) {
-        //Move with set velocity
-        this.x += this.vx * secondsPassed;
-        this.y += this.vy * secondsPassed;
+    update(x,y) {
+        this.x = x;
+        this.y = y;
     }
     arcdraw(radius)
     {
@@ -31,6 +26,4 @@ class Square extends GameObject {
         this.context.fillStyle = this.colorOption;
         this.arcdraw(5);
     }
-}
-
-export default Square;
+};

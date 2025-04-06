@@ -1,23 +1,18 @@
-import GameObject from './GameObject';
+import CoreComponent from './CoreComponent';
 
-class Segment extends GameObject {
+export default class ButtonFrame extends CoreComponent {
     constructor(context, x, y, w, h, txt, ID){
         super(context, x, y);
-        //Set default width and height
         this.width = w;
         this.height = h;
-        this.colorOption = this.isColliding? '#ffcd00' : this.isSelected? '#cdff00': 'e85c5c';
-        this.supportOption = this.isColliding? '#71706b' : this.isSelected? '#71706b': 'fffbeb';
         this.text = txt;
         this.fontsize = 50;
         this.buttonID = ID;
         this.innerbuffer = 0;
     }
-
-    update(secondsPassed) {
-        //Move with set velocity
-        this.x += this.vx * secondsPassed;
-        this.y += this.vy * secondsPassed;
+    update(x,y) {
+        this.x = x;
+        this.y = y;
     }
     arcdraw(radius)
     {
@@ -46,5 +41,3 @@ class Segment extends GameObject {
         this.context.fill();
     }
 }
-
-export default Segment;
