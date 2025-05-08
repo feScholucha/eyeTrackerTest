@@ -11,8 +11,8 @@ export default class Callibrator {
         this.callSqr = new Target(this.context, 10000, 10000);
         this.Targets = [];
         this.nextTarget = 0;
-        this.canvasWidth = 1200;
-        this.canvasHeight = 600;
+        this.canvasWidth = window.innerWidth;
+        this.canvasHeight = window.innerHeight;
         this.pointsArray = [];
         this.primed = 1;
         this.timer = 0;

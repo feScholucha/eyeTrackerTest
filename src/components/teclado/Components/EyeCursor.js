@@ -11,7 +11,7 @@ export default class EyeCursor extends CoreComponent {
         this.y = y;
     }
     draw() {
-        this.context.fillStyle = this.isColliding?'#6D426D':'#FF00FF';
+        this.context.fillStyle = this.isColliding?'#6D426D':'#b028a6';
         this.context.beginPath();
         this.context.arc(this.x, this.y, 25, 0, Math.PI * 2);
         this.context.fill();

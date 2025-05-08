@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import Teclado from "./Teclado";
 import KeyboardCanvas from "./KeyboardCanvas";
 import Callibrator from "./Callibrator";
 import "./Controller.css";
@@ -62,17 +61,14 @@ const Controller = () => {
         window.onclick = function (event) {
             screenActive.primed = 1;
         }
-        // operacional = screenActive.activateUse;
+        operacional = screenActive.activateUse;
     }
-    operacional = true;
+
+    // operacional = true; //Toggle da calibragem
     if (operacional) //Teclado
     {
         return (
             <div>
-                <div className="baseKeyboard">
-                    <Teclado/>
-                </div>
-                <div className="baseKeyboard">
                     <canvas
                         id="mainScreen"
                         ref={keyboardRef}
@@ -81,7 +77,6 @@ const Controller = () => {
                         style={{ border: '1px solid lightgrey' }}>
                         Your browser does not support the HTML5 canvas tag.
                     </canvas>
-                </div>
             </div>
         );
     }
@@ -89,12 +84,11 @@ const Controller = () => {
     {
         return (
                 <div className="baseKeyboard">
-                    <p>Calibragem</p>
                     <canvas
                         id="mainScreen"
                         ref={canvasRef}
-                        width="1200"
-                        height="600"
+                        width={String(window.innerWidth-3)}
+                        height={String(window.innerHeight-6)}
                         style={{ border: '1px solid lightgrey' }}>
                         Your browser does not support the HTML5 canvas tag.
                     </canvas>
